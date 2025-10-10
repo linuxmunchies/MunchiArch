@@ -470,14 +470,14 @@ install_cpu_specific_packages() {
     amd)
         log INFO "Installing AMD CPU microcode and tools..."
         install_packages amd-ucode cpupower
-        ;;;
+        ;;
     intel)
         log INFO "Installing Intel CPU microcode and tools..."
         install_packages intel-ucode thermald powertop
-        ;;;
+        ;;
     *)
         log INFO "No specific CPU microcode selected."
-        ;;;
+        ;;
     esac
 }
 
@@ -486,18 +486,18 @@ install_gpu_specific_packages() {
     amd)
         log INFO "Installing AMD GPU drivers..."
         install_packages mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon xf86-video-amdgpu
-        ;;;
+        ;;
     intel)
         log INFO "Installing Intel GPU drivers..."
         install_packages mesa lib32-mesa vulkan-intel lib32-vulkan-intel xf86-video-intel
-        ;;;
+        ;;
     nvidia)
         log INFO "Installing NVIDIA GPU drivers..."
         install_packages nvidia nvidia-utils lib32-nvidia-utils nvidia-settings
-        ;;;
+        ;;
     *)
         log INFO "No specific GPU drivers selected."
-        ;;;
+        ;;
     esac
 }
 
@@ -530,7 +530,7 @@ setup_flatpak() {
 }
 
 install_essential_apps() {
-    if [[ ${INSTALL_CATEGORIES[essentials]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ essentials ]]; then
         log INFO "Skipping essential applications"
         return 0
     fi
@@ -576,7 +576,7 @@ install_essential_apps() {
 }
 
 install_development_tools() {
-    if [[ ${INSTALL_CATEGORIES[coding]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ coding ]]; then
         log INFO "Skipping development tools"
         return 0
     fi
@@ -618,7 +618,7 @@ install_rclone() {
 }
 
 install_multimedia_apps() {
-    if [[ ${INSTALL_CATEGORIES[media]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ media ]]; then
         log INFO "Skipping multimedia applications"
         return 0
     fi
@@ -660,7 +660,7 @@ install_multimedia_apps() {
 }
 
 install_gaming_apps() {
-    if [[ ${INSTALL_CATEGORIES[gaming]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ gaming ]]; then
         log INFO "Skipping gaming applications"
         return 0
     fi
@@ -726,7 +726,7 @@ install_munchiehud_configs() {
 }
 
 install_browsers() {
-    if [[ ${INSTALL_CATEGORIES[browsers]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ browsers ]]; then
         log INFO "Skipping browser applications"
         return 0
     fi
@@ -746,7 +746,7 @@ install_browsers() {
 }
 
 install_office_apps() {
-    if [[ ${INSTALL_CATEGORIES[office]} != "true" ]]; then
+    if [[ ! " ${USER_STEPS[*]} " =~ office ]]; then
         log INFO "Skipping office applications"
         return 0
     fi
@@ -1221,7 +1221,7 @@ get_user_choices() {
         echo "Select steps to run (comma separated):"
         echo "Options: directory_structure, dotfiles, firewall, gamedrive, essentials, coding, media, gaming, browsers, office, virtualization"
         read -rp "Steps: " steps
-        IFS=\'',\' read -ra USER_STEPS <<<"$steps"
+        IFS=',' read -ra USER_STEPS <<<"$steps"
     fi
 
     # Gamedrive selection (if enabled)
@@ -1259,7 +1259,7 @@ parse_arguments() {
         -h | --help)
             display_help
             exit 0
-            ;;;
+            ;;
         --config)
             if [[ -n "$2" ]]; then
                 CONFIG_FILE="$2"
@@ -1268,10 +1268,10 @@ parse_arguments() {
             else
                 error_exit "ERROR: --config requires a file path."
             fi
-            ;;;
+            ;;
         *)
             error_exit "Unknown option: $1"
-            ;;;
+            ;;
         esac
         shift
     done
