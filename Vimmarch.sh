@@ -541,9 +541,9 @@ install_essential_apps() {
     local essential_packages=(
         man-db htop btop fastfetch git wget curl
         zip unzip unrar rsync fzf ncdu tmux
-        vim neovim kitty wl-clipboard
+        vim neovim kitty wl-clipboard eza
         bluez-utils power-profiles-daemon
-        partitionmanager exfatprogs
+        partitionmanager exfatprogs tmux
         intel-gpu-tools amdgpu_top
         flatpak bat make gcc go tldr zsh timeshift
         os-prober)
